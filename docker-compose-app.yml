@@ -32,12 +32,11 @@ services:
       - DB_URL=jdbc:postgresql://orders-db:5432/postgres
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
-      - RABBITMQ_HOST=bookstore-rabbitmq
+      - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
       - OAUTH2_SERVER_URL=http://keycloak:9191
-      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/orders
       - MANAGEMENT_TRACING_ENABLED=true
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
     ports:
@@ -46,7 +45,7 @@ services:
     depends_on:
       orders-db:
         condition: service_healthy
-      bookstore-rabbitmq:
+      rabbitmq:
         condition: service_healthy
     deploy:
       resources:
@@ -63,7 +62,7 @@ services:
       - DB_URL=jdbc:postgresql://notifications-db:5432/postgres
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
-      - RABBITMQ_HOST=bookstore-rabbitmq
+      - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
@@ -77,7 +76,7 @@ services:
     depends_on:
       notifications-db:
         condition: service_healthy
-      bookstore-rabbitmq:
+      rabbitmq:
         condition: service_healthy
       mailhog:
         condition: service_started

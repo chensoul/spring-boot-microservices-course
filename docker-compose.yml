@@ -37,9 +37,9 @@ services:
         limits:
           memory: 500m
 
-  bookstore-rabbitmq:
+  rabbitmq:
     image: rabbitmq:4-management
-    container_name: bookstore-rabbitmq
+    container_name: rabbitmq
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
