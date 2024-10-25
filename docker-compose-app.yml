@@ -1,7 +1,7 @@
 name: 'spring-boot-microservices-course'
 services:
   catalog-service:
-    image: sivaprasadreddy/bookstore-catalog-service
+    image: chensoul/bookstore-catalog-service
     container_name: catalog-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -25,7 +25,7 @@ services:
       logging: "promtail"
 
   order-service:
-    image: sivaprasadreddy/bookstore-order-service
+    image: chensoul/bookstore-order-service
     container_name: order-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -57,7 +57,7 @@ services:
       logging: "promtail"
 
   notification-service:
-    image: sivaprasadreddy/bookstore-notification-service
+    image: chensoul/bookstore-notification-service
     container_name: notification-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -90,7 +90,7 @@ services:
       logging: "promtail"
 
   api-gateway:
-    image: sivaprasadreddy/bookstore-api-gateway
+    image: chensoul/bookstore-api-gateway
     container_name: api-gateway
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -109,7 +109,7 @@ services:
       logging: "promtail"
 
   bookstore-webapp:
-    image: sivaprasadreddy/bookstore-webapp
+    image: chensoul/bookstore-webapp
     container_name: bookstore-webapp
     environment:
       - SPRING_PROFILES_ACTIVE=docker

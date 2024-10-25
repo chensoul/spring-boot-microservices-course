@@ -4,9 +4,9 @@ vars:
   GOOS: "{{default OS .GOOS}}"
   MVNW: '{{if eq .GOOS "windows"}}mvnw.cmd{{else}}./mvnw{{end}}'
   DC_DIR: "deployment/docker-compose"
-  INFRA_DC_FILE: "{{.DC_DIR}}/infra.yml"
-  APPS_DC_FILE: "{{.DC_DIR}}/apps.yml"
-  MONITORING_DC_FILE: "{{.DC_DIR}}/monitoring.yml"
+  INFRA_DC_FILE: "{{.DC_DIR}}/docker-compose.yml"
+  APPS_DC_FILE: "{{.DC_DIR}}/docker-compose-app.yml"
+  MONITORING_DC_FILE: "{{.DC_DIR}}/docker-compose-monitor.yml"
   SLEEP_CMD: '{{if eq .GOOS "windows"}}timeout{{else}}sleep{{end}}'
 
 tasks:

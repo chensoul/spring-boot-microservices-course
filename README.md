@@ -26,7 +26,7 @@ We will build a BookStore application using Spring Boot, Spring Cloud, and Docke
 * **api-gateway**: 
   This service is an API Gateway to the internal backend services (catalog-service, order-service).
 
-  **TechStack:** Spring Boot, Spring Cloud Gateway
+  **TechStack:** Spring Boot, Spring Cloud Gateway, Spring Cloud CircuitBreaker, Resilience4j, OpenAPI
 
 * **bookstore-webapp**: 
   This is the customer facing web application where customers can browse the catalog, place orders, and view their order details. 
@@ -55,6 +55,19 @@ We will build a BookStore application using Spring Boot, Spring Cloud, and Docke
 * Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 * Install [IntelliJ IDEA](https://www.jetbrains.com/idea) or any of your favorite IDE
 * Install [Postman](https://www.postman.com/) or any REST Client
+
+## How to Run
+
+```shell
+docker-compose -f docker-compose-app.yml -f docker-compose.yml -f docker-compose-monitor.yml up -d
+```
+## Links
+
+- api-gateway: http://localhost:8989
+- bookstore-webapp: http://localhost:8080  siva/siva1234
+- keycloak: http://localhost:9191 admin/admin1234
+- grafana: http://localhost:3000 admin/admin123
+- mailhog: http://localhost:8025
 
 ## Other Learning Resources
 * [SivaLabs Blog](https://sivalabs.in)
