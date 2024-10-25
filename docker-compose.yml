@@ -1,4 +1,3 @@
-name: 'spring-boot-microservices-course'
 services:
   catalog-db:
     image: postgres:17-alpine
@@ -89,7 +88,7 @@ services:
     container_name: keycloak
     hostname: keycloak
     volumes:
-      - ./realm-config:/opt/keycloak/data/import
+      - ./docker/realm-config:/opt/keycloak/data/import
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin1234
