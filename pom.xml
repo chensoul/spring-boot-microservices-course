@@ -30,9 +30,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.3.5</version>
                 <configuration>
                     <image>
-                            <name>${env.USER}/bookstore-${project.artifactId}</name>
+                        <name>${env.USER}/bookstore-${project.artifactId}</name>
                     </image>
                 </configuration>
             </plugin>
@@ -43,12 +44,12 @@
                 <version>${spotless-maven-plugin.version}</version>
                 <configuration>
                     <java>
-                        <importOrder />
-                        <removeUnusedImports />
+                        <importOrder/>
+                        <removeUnusedImports/>
                         <palantirJavaFormat>
                             <version>2.35.0</version>
                         </palantirJavaFormat>
-                        <formatAnnotations />
+                        <formatAnnotations/>
                     </java>
                 </configuration>
                 <executions>
