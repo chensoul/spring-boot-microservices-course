@@ -96,3 +96,7 @@ renovate.json
   ]
 }
 ```
+
+## 改进
+
+- 参考 https://github.com/SaiUpadhyayula/spring-boot-3-microservices-course ，添加 k8s 

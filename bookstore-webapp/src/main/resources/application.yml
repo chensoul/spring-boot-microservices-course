@@ -1,0 +1,44 @@
+spring.application.name: bookstore-webapp
+server.port: 8080
+server.shutdown: graceful
+spring.mvc.problemdetails.enabled: true
+
+######## BookStore Application Configuration  #########
+bookstore.api-gateway-url: http://localhost:8989
+
+######## Actuator Configuration  #########
+management.info.git.mode: full
+management.endpoints.web.exposure.include: *
+management.endpoint.health.show-details: always
+management.endpoint.health.probes.enabled: true
+management.metrics.tags.application: ${spring.application.name}
+management.metrics.distribution.percentiles-histogram.http.server.requests: true
+management.observations.key-values.application: ${spring.application.name}
+management.tracing.enabled: false
+management.tracing.sampling.probability: 1.0
+management.zipkin.tracing.endpoint: http://localhost:9411/api/v2/spans
+
+######## OAuth2 Security Configuration  #########
+oauth2.server-url: http://localhost:9191
+oauth2.realm-url: ${oauth2.server-url}/realms/bookstore
+
+spring.security.oauth2.client.registration.bookstore-webapp.client-id: bookstore-webapp
+spring.security.oauth2.client.registration.bookstore-webapp.client-secret: P1sibsIrELBhmvK18BOzw1bUl96DcP2z
+spring.security.oauth2.client.registration.bookstore-webapp.authorization-grant-type: authorization_code
+spring.security.oauth2.client.registration.bookstore-webapp.scope: openid, profile
+spring.security.oauth2.client.registration.bookstore-webapp.redirect-uri: {baseUrl}/login/oauth2/code/bookstore-webapp
+
+spring.security.oauth2.client.provider.bookstore-webapp.issuer-uri: ${oauth2.realm-url}
+#spring.security.oauth2.client.provider.bookstore-webapp.authorization-uri: ${oauth2.realm-url}/protocol/openid-connect/auth
+#spring.security.oauth2.client.provider.bookstore-webapp.token-uri: ${oauth2.realm-url}/protocol/openid-connect/token
+#spring.security.oauth2.client.provider.bookstore-webapp.jwk-set-uri: ${oauth2.realm-url}/protocol/openid-connect/certs
+#spring.security.oauth2.client.provider.bookstore-webapp.user-info-uri: ${oauth2.realm-url}/protocol/openid-connect/userinfo
+
+
+---
+spring.config.activate.on-profile: docker
+
+management.tracing.enabled: true
+management.zipkin.tracing.endpoint: http://tempo:9411/api/v2/spans
+bookstore.api-gateway-url: http://api-gateway:8989
+oauth2.server-url: http://keycloak:9191

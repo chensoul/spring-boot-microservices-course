@@ -1,0 +1,77 @@
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: catalog-db
+subsets:
+  - addresses:
+      - ip: 192.168.1.75
+    ports:
+      - port: 15432
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: order-db
+subsets:
+  - addresses:
+      - ip: 192.168.1.75
+    ports:
+      - port: 25432
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: notification-db
+subsets:
+  - addresses:
+      - ip: 192.168.1.75
+    ports:
+      - port: 35432
+
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: bookstore-rabbitmq
+subsets:
+  - addresses:
+      - ip: 192.168.1.75
+    ports:
+      - port: 5672
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: mailhog
+subsets:
+  - addresses:
+      - ip: 192.168.1.75
+    ports:
+      - port: 1025
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: keycloak
+subsets:
+  - addresses:
+      - ip: 192.168.1.75
+    ports:
+      - port: 9191
+
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: tempo
+subsets:
+  - addresses:
+      - ip: 192.168.1.75
+    ports:
+      - port: 9411

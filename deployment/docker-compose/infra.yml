@@ -19,9 +19,9 @@ services:
         limits:
           memory: 500m
 
-  orders-db:
+  order-db:
     image: postgres:17-alpine
-    container_name: orders-db
+    container_name: order-db
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -57,9 +57,9 @@ services:
         limits:
           memory: 500m
 
-  notifications-db:
+  notification-db:
     image: postgres:17-alpine
-    container_name: notifications-db
+    container_name: notification-db
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

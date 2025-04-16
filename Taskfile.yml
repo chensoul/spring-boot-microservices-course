@@ -5,8 +5,8 @@ vars:
   MVNW: '{{if eq .GOOS "windows"}}mvnw.cmd{{else}}./mvnw{{end}}'
   DC_DIR: "deployment/docker-compose"
   INFRA_DC_FILE: "{{.DC_DIR}}/infra.yml"
-  APPS_DC_FILE: "{{.DC_DIR}}/apps.yml"
-  MONITORING_DC_FILE: "{{.DC_DIR}}/monitoring.yml"
+  APPS_DC_FILE: "{{.DC_DIR}}/app.yml"
+  MONITORING_DC_FILE: "{{.DC_DIR}}/monitor.yml"
   SLEEP_CMD: '{{if eq .GOOS "windows"}}timeout{{else}}sleep{{end}}'
 
 tasks:
@@ -45,20 +45,20 @@ tasks:
       - task: sleep
       - task: start_infra
 
-  start_monitoring:
+  start_monitor:
     cmds:
       - "docker compose -f {{.MONITORING_DC_FILE}} up -d"
 
-  stop_monitoring:
+  stop_monitor:
     cmds:
       - "docker compose -f {{.MONITORING_DC_FILE}} stop"
       - "docker compose -f {{.MONITORING_DC_FILE}} rm -f"
 
-  restart_monitoring:
+  restart_monitor:
     cmds:
-      - task: stop_monitoring
+      - task: stop_monitor
       - task: sleep
-      - task: start_monitoring
+      - task: start_monitor
 
   start:
     deps: [build]

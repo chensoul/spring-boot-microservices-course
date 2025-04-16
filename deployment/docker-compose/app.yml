@@ -1,0 +1,91 @@
+name: 'spring-boot-microservices-course'
+services:
+  catalog-service:
+    image: chensoul/bookstore-catalog-service
+    container_name: catalog-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
+    depends_on:
+      catalog-db:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    labels:
+      logging: "promtail"
+
+  order-service:
+    image: chensoul/bookstore-order-service
+    container_name: order-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+    depends_on:
+      order-db:
+        condition: service_healthy
+      bookstore-rabbitmq:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    labels:
+      logging: "promtail"
+
+  notification-service:
+    image: chensoul/bookstore-notification-service
+    container_name: notification-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8083:8083"
+    restart: unless-stopped
+    depends_on:
+      notification-db:
+        condition: service_healthy
+      bookstore-rabbitmq:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    labels:
+      logging: "promtail"
+
+  api-gateway:
+    image: chensoul/bookstore-api-gateway
+    container_name: api-gateway
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8989:8989"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    labels:
+      logging: "promtail"
+
+  bookstore-webapp:
+    image: chensoul/bookstore-webapp
+    container_name: bookstore-webapp
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    labels:
+      logging: "promtail"
