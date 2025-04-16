@@ -99,4 +99,4 @@ renovate.json
 
 ## 改进
 
-- 参考 https://github.com/SaiUpadhyayula/spring-boot-3-microservices-course ，添加 k8s 
+- 参考 https://github.com/SaiUpadhyayula/spring-boot-3-microservices-course ，添加 k8s，也可以添加 kafka

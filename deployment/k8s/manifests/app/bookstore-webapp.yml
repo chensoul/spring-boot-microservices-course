@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstore-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookstore-webapp
+  template:
+    metadata:
+      labels:
+        app: bookstore-webapp
+    spec:
+      containers:
+        - name: bookstore-webapp
+          image: chensoul/bookstore-webapp
+          imagePullPolicy: Always
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  key: SPRING_PROFILES_ACTIVE
+                  name: common-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookstore-webapp
+spec:
+  selector:
+    app: bookstore-webapp
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
