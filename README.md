@@ -112,14 +112,32 @@ You can start individual microservices by running their respective Test main ent
 
 ## Run the application with Observability Stack
 
+### Prerequisites
+1. **Rebuild Docker images** to include the new Docker profile configurations:
+   ```bash
+   $ task build
+   # or
+   $ task docker-build
+   ```
+
+2. **Create .env file** to enable distributed tracing:
+   ```bash
+   $ cd deployment/docker-compose
+   $ echo "MANAGEMENT_TRACING_ENABLED=true" > .env
+   ```
+
+### Start Services
 1. Start Grafana, Tempo, Loki, Prometheus using `$ task start_monitoring`
-2. Set `MANAGEMENT_TRACING_ENABLED=true` in `deployment/docker-compose/.env` file
-3. Restart the application using `$ task restart`
+2. Start the application using `$ task start`
 
-Now you can access the observability stack using the following URLs:
-
-* Access Grafana at http://localhost:3000 with credentials `admin/admin123`
-* Access Prometheus at http://localhost:9090
+### Access Observability Tools
+* **Grafana**: http://localhost:3000 (credentials: `admin/admin123`)
+  - Pre-configured data sources: Prometheus, Tempo, Loki
+  - Auto-loaded dashboards: Spring Boot 3.x Statistics, Spring Boot Observability
+* **Prometheus**: http://localhost:9090
+  - Check targets at: http://localhost:9090/targets
+* **Tempo**: Accessible via Grafana Explore
+* **Loki**: Accessible via Grafana Explore
 
 
 ## Other Learning Resources

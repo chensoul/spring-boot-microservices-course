@@ -3,13 +3,16 @@ server:
   shutdown: graceful
 
 management:
+  info:
+    git:
+      mode: full
   endpoints:
     web:
       exposure:
         include: "*"
   metrics:
     tags:
-        application: ${spring.application.name}
+      application: ${spring.application.name}
   tracing:
     enabled: false
     sampling:
@@ -18,6 +21,9 @@ management:
 spring:
   application:
     name: api-gateway
+  mvc:
+    problemdetails:
+      enabled: true
   cloud:
     gateway:
       server:
@@ -47,16 +53,12 @@ spring:
           globalcors:
             cors-configurations:
               '[/**]':
-                          allowed-origins: "*"
-                          allowed-methods: "*"
-                          allowed-headers: "*"
-                          allow-credentials: false
+                allowed-origins: "*"
+                allowed-methods: "*"
+                allowed-headers: "*"
+                allow-credentials: false
           default-filters:
             - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Methods Access-Control-Allow-Headers RETAIN_FIRST
-
-  mvc:
-      problemdetails:
-        enabled: true
 
 springdoc:
   swagger-ui:
@@ -66,3 +68,8 @@ springdoc:
 #        url: /v3/api-docs/catalog
 #      - name: orders
 #        url: /v3/api-docs/orders
+
+---
+spring.config.activate.on-profile: docker
+
+server.port: 8080
