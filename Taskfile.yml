@@ -6,9 +6,9 @@ vars:
   DC_DIR: "deployment/docker-compose"
   INFRA_DC_FILE: "{{.DC_DIR}}/infra.yml"
   APPS_DC_FILE: "{{.DC_DIR}}/apps.yml"
-  MONITORING_DC_FILE: "{{.DC_DIR}}/o11y.yml"
+  O11Y_DC_FILE: "{{.DC_DIR}}/o11y.yml"
   SLEEP_CMD: '{{if eq .GOOS "windows"}}timeout{{else}}sleep{{end}}'
-  USER: "chensoul"
+  DOCKER_USERNAME: "chensoul"
   IMAGE_PREFIX: "bookstore"
 
 tasks:
@@ -26,20 +26,20 @@ tasks:
 
   build:
     cmds:
-      - "{{.MVNW}} -pl catalog-service spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.USER}}/{{.IMAGE_PREFIX}}-catalog-service -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base"
-      - "{{.MVNW}} -pl order-service spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.USER}}/{{.IMAGE_PREFIX}}-order-service -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base"
-      - "{{.MVNW}} -pl notification-service spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.USER}}/{{.IMAGE_PREFIX}}-notification-service -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base"
-      - "{{.MVNW}} -pl api-gateway spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.USER}}/{{.IMAGE_PREFIX}}-api-gateway -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base "
-      - "{{.MVNW}} -pl webapp spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.USER}}/{{.IMAGE_PREFIX}}-webapp -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base"
+      - "{{.MVNW}} -pl catalog-service spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.DOCKER_USERNAME}}/{{.IMAGE_PREFIX}}-catalog-service -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base"
+      - "{{.MVNW}} -pl order-service spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.DOCKER_USERNAME}}/{{.IMAGE_PREFIX}}-order-service -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base"
+      - "{{.MVNW}} -pl notification-service spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.DOCKER_USERNAME}}/{{.IMAGE_PREFIX}}-notification-service -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base"
+      - "{{.MVNW}} -pl api-gateway spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.DOCKER_USERNAME}}/{{.IMAGE_PREFIX}}-api-gateway -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base "
+      - "{{.MVNW}} -pl webapp spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.DOCKER_USERNAME}}/{{.IMAGE_PREFIX}}-webapp -Dspring-boot.build-image.builder=paketobuildpacks/builder-jammy-base"
 
   docker-build:
     cmds:
       - "{{.MVNW}} clean package -DskipTests"
-      - "cd catalog-service && docker build -t  {{.USER}}/{{.IMAGE_PREFIX}}-catalog-service ."
-      - "cd order-service && docker build -t  {{.USER}}/{{.IMAGE_PREFIX}}-order-service ."
-      - "cd notification-service && docker build -t  {{.USER}}/{{.IMAGE_PREFIX}}-notification-service ."
-      - "cd api-gateway && docker build -t  {{.USER}}/{{.IMAGE_PREFIX}}-api-gateway ."
-      - "cd webapp && docker build -t  {{.USER}}/{{.IMAGE_PREFIX}}-webapp ."
+      - "cd catalog-service && docker build -t  {{.DOCKER_USERNAME}}/{{.IMAGE_PREFIX}}-catalog-service ."
+      - "cd order-service && docker build -t  {{.DOCKER_USERNAME}}/{{.IMAGE_PREFIX}}-order-service ."
+      - "cd notification-service && docker build -t  {{.DOCKER_USERNAME}}/{{.IMAGE_PREFIX}}-notification-service ."
+      - "cd api-gateway && docker build -t  {{.DOCKER_USERNAME}}/{{.IMAGE_PREFIX}}-api-gateway ."
+      - "cd webapp && docker build -t  {{.DOCKER_USERNAME}}/{{.IMAGE_PREFIX}}-webapp ."
 
   start_infra:
     cmds:
@@ -57,11 +57,11 @@ tasks:
 
   start_o11y:
     cmds:
-      - "docker compose -f {{.MONITORING_DC_FILE}} up -d"
+      - "docker compose -f {{.O11Y_DC_FILE}} up -d"
 
   stop_o11y:
     cmds:
-      - "docker compose -f {{.MONITORING_DC_FILE}} stop"
+      - "docker compose -f {{.O11Y_DC_FILE}} stop"
 
   restart_o11y:
     cmds:
@@ -85,7 +85,7 @@ tasks:
 
   remove-container:
     cmds:
-      - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APPS_DC_FILE}} -f {{.MONITORING_DC_FILE}} rm -f"
+      - "docker compose -f {{.INFRA_DC_FILE}} -f {{.APPS_DC_FILE}} -f {{.O11Y_DC_FILE}} rm -f"
 
   sleep:
     vars:
