@@ -12,6 +12,10 @@ services:
     ports:
       - "8081:8081"
     restart: unless-stopped
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 127.0.0.1:24224
     depends_on:
       catalog-db:
         condition: service_healthy
@@ -37,6 +41,10 @@ services:
     ports:
       - "8082:8082"
     restart: unless-stopped
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 127.0.0.1:24224
     depends_on:
       order-db:
         condition: service_healthy
@@ -62,6 +70,10 @@ services:
     ports:
       - "8083:8083"
     restart: unless-stopped
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 127.0.0.1:24224
     depends_on:
       notification-db:
         condition: service_healthy
@@ -88,6 +100,10 @@ services:
     ports:
       - "8989:8989"
     restart: unless-stopped
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 127.0.0.1:24224
     deploy:
       resources:
         limits:
@@ -107,6 +123,10 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: 127.0.0.1:24224
     deploy:
       resources:
         limits:
