@@ -55,21 +55,3 @@ management:
     enabled: false
     sampling:
       probability: 1.0
-
----
-spring.config.activate.on-profile: docker
-
-spring:
-  datasource:
-    url: jdbc:postgresql://notification-db:35432/postgres
-  rabbitmq:
-    host: rabbitmq
-  mail:
-    host: mailhog
-
-management:
-  tracing:
-    enabled: true
-  zipkin:
-    tracing:
-      endpoint: http://tempo:9411/api/v2/spans

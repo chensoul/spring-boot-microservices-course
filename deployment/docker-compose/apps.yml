@@ -6,6 +6,10 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8080
+      - DB_URL=jdbc:postgresql://catalog-db:5432/postgres
+      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8080/catalog
+      - MANAGEMENT_TRACING_ENABLED=true
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411/api/v2/spans
     ports:
       - "8081:8080"
     restart: unless-stopped
@@ -25,6 +29,13 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8080
+      - DB_URL=jdbc:postgresql://order-db:5432/postgres
+      - RABBITMQ_HOST=rabbitmq
+      - ORDERS_CATALOG_SERVICE_URL=http://api-gateway:8080/catalog
+      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8080/orders
+      - OAUTH2_SERVER_URL=http://keycloak:9191
+      - MANAGEMENT_TRACING_ENABLED=true
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411/api/v2/spans
     ports:
       - "8082:8080"
     restart: unless-stopped
@@ -46,6 +57,11 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8080
+      - DB_URL=jdbc:postgresql://notification-db:5432/postgres
+      - RABBITMQ_HOST=rabbitmq
+      - MAIL_HOST=mailhog
+      - MANAGEMENT_TRACING_ENABLED=true
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411/api/v2/spans
     ports:
       - "8083:8080"
     restart: unless-stopped
@@ -69,6 +85,10 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8080
+      - CATALOG_SERVICE_URL=http://catalog-service:8080
+      - ORDER_SERVICE_URL=http://order-service:8080
+      - MANAGEMENT_TRACING_ENABLED=true
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411/api/v2/spans
     ports:
       - "8989:8080"
     restart: unless-stopped
@@ -85,6 +105,10 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8080
+      - BOOKSTORE_API_GATEWAY_URL=http://api-gateway:8080
+      - OAUTH2_SERVER_URL=http://keycloak:9191
+      - MANAGEMENT_TRACING_ENABLED=true
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411/api/v2/spans
     ports:
       - "8080:8080"
     restart: unless-stopped
