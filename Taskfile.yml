@@ -6,7 +6,7 @@ vars:
   DC_DIR: "deployment/docker-compose"
   INFRA_DC_FILE: "{{.DC_DIR}}/infra.yml"
   APPS_DC_FILE: "{{.DC_DIR}}/apps.yml"
-  MONITORING_DC_FILE: "{{.DC_DIR}}/monitoring.yml"
+  MONITORING_DC_FILE: "{{.DC_DIR}}/o11y.yml"
   SLEEP_CMD: '{{if eq .GOOS "windows"}}timeout{{else}}sleep{{end}}'
   USER: "chensoul"
   IMAGE_PREFIX: "bookstore"
@@ -55,19 +55,19 @@ tasks:
       - task: sleep
       - task: start_infra
 
-  start_monitoring:
+  start_o11y:
     cmds:
       - "docker compose -f {{.MONITORING_DC_FILE}} up -d"
 
-  stop_monitoring:
+  stop_o11y:
     cmds:
       - "docker compose -f {{.MONITORING_DC_FILE}} stop"
 
-  restart_monitoring:
+  restart_o11y:
     cmds:
-      - task: stop_monitoring
+      - task: stop_o11y
       - task: sleep
-      - task: start_monitoring
+      - task: start_o11y
 
   start:
     cmds:

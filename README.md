@@ -11,12 +11,12 @@ We will build a BookStore application using Spring Boot, Spring Cloud, and Docke
 * **catalog-service**: 
   This services provides REST API for managing catalog of products(books).
   
-  **TechStack:** Spring Boot, Spring Data JPA, PostgreSQL
+  **TechStack:** Spring Boot, Spring Data JPA, Postgres
 
 * **order-service**: 
   This service provides the REST API for managing orders and publishes order events to the message broker.
 
-  **TechStack:** Spring Boot, Spring Security OAuth2, Keycloak, Spring Data JPA, PostgreSQL, RabbitMQ
+  **TechStack:** Spring Boot, Spring Security OAuth2, Keycloak, Spring Data JPA, Postgres, RabbitMQ
 
 * **notification-service**: 
   This service listens to the order events and sends notifications to the users.
@@ -83,7 +83,7 @@ $ cd spring-boot-microservices-course
 
 #### Option 1: Start the infra components using Docker Compose and run microservices from IDE
 
-1. **Start all the required services such as PostgreSQL, RabbitMQ, Keycloak, etc.:** `$ task start_infra`
+1. **Start all the required services such as Postgres, RabbitMQ, Keycloak, etc.:** `$ task start_infra`
 
 2. **Start individual microservices:**
   You can start individual microservices by running their respective main entrypoint classes from IDE: 
@@ -97,8 +97,8 @@ $ cd spring-boot-microservices-course
 3. **Access the application** 
 
 * **Webapp**: http://localhost:8080 with credentials `siva/siva1234` or `prasad/prasad1234`
-* **Catalog Service PostgreSQL DB**: `jdbc:postgresql://localhost:15432/postgres` with credentials `postgres/postgres`
-* **Order Service PostgreSQL DB**: `jdbc:postgresql://localhost:25433/postgres` with credentials `postgres/postgres`
+* **Catalog Service Postgres DB**: `jdbc:postgresql://localhost:15432/postgres` with credentials `postgres/postgres`
+* **Order Service Postgres DB**: `jdbc:postgresql://localhost:25433/postgres` with credentials `postgres/postgres`
 * **RabbitMQ**: `http://localhost:15672` with credentials `guest/guest`
 * **Keycloak**: `http://localhost:9191` with credentials `admin/admin1234`
 * **MailHog**: `http://localhost:8025`
@@ -137,7 +137,7 @@ $ echo "MANAGEMENT_TRACING_ENABLED=true" > .env
 
 3. **Start Services**
 
-Start Grafana, Tempo, Loki, Prometheus using `$ task start_monitoring`
+Start Grafana, Tempo, Loki, Prometheus using `$ task start_o11y`
 
 ReStart the application using `$ task restart`
 
@@ -145,7 +145,7 @@ ReStart the application using `$ task restart`
 
 * **Grafana**: http://localhost:3000 (credentials: `admin/admin1234`)
   - Pre-configured data sources: Prometheus, Tempo, Loki
-  - Auto-loaded dashboards: Spring Boot 3.x Statistics, Spring Boot Observability
+  - Autoloaded dashboards: Spring Boot 3 Statistics
 * **Prometheus**: http://localhost:9090
   - Check targets at: http://localhost:9090/targets
 * **Tempo**: Accessible via Grafana Explore
