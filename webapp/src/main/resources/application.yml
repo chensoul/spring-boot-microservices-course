@@ -44,7 +44,7 @@ management:
     tags:
       application: ${spring.application.name}
   tracing:
-    enabled: false
+    enabled: true
     sampling:
       probability: 1.0
 

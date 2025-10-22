@@ -29,10 +29,10 @@ management:
     tags:
       application: ${spring.application.name}
   tracing:
-    enabled: false
+    enabled: true
     sampling:
       probability: 1.0
 
 # Swagger Configuration
 swagger:
-  api-gateway-url: ${SWAGGER_API_GATEWAY_URL:http://localhost:8989/catalog}
+  api-gateway-url: http://localhost:8989/catalog

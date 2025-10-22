@@ -17,8 +17,7 @@ COPY --from=builder extracted/snapshot-dependencies/ ./
 # Copy the application layer from the builder stage
 COPY --from=builder extracted/application/ ./
 
-# Expose port 8080
-EXPOSE 8080
+EXPOSE 8083
 
 # Set the entry point to launch the application
 ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
