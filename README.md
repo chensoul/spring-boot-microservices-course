@@ -89,7 +89,7 @@ $ cd spring-boot-microservices-course
 2. **Start individual microservices:**
   You can start individual microservices by running their respective main entrypoint classes from IDE: `ApiGatewayApplication`, `CatalogServiceApplication`, `OrderServiceApplication`, `NotificationServiceApplication`, `BookstoreWebappApplication`
 
-3. **Access the application** at http://localhost:8080
+3. **Access the application** at http://localhost:8080 with credentials `siva/siva1234` or `prasad/prasad1234`
 
 * Catalog Service PostgreSQL DB: `jdbc:postgresql://localhost:15432/postgres` with credentials `postgres/postgres`
 * Order Service PostgreSQL DB: `jdbc:postgresql://localhost:25433/postgres` with credentials `postgres/postgres`
@@ -133,3 +133,8 @@ Now you can access the observability stack using the following URLs:
   * [Spring Boot + Kubernetes Series](https://www.youtube.com/playlist?list=PLuNxlOYbv61h66_QlcjCEkVAj6RdeplJJ)
   * [Spring Boot : The Missing Guide](https://www.youtube.com/playlist?list=PLuNxlOYbv61jZL1IiciTgWezZoqEp4WXh)
   * [Java Testing Made Easy: Learn writing Unit, Integration, E2E & Performance Tests](https://www.youtube.com/playlist?list=PLuNxlOYbv61jtHHFHBOc9N7Dg5jn013ix)
+
+## References
+
+- https://github.com/Nasruddin/spring-boot-based-microservices
+- https://github.com/PacktPublishing/Microservices-with-Spring-Boot-and-Spring-Cloud-Fourth-Edition
