@@ -28,7 +28,7 @@ We will build a BookStore application using Spring Boot, Spring Cloud, and Docke
 
   **TechStack:** Spring Boot, Spring Cloud Gateway
 
-* **bookstore-webapp**: 
+* **webapp**: 
   This is the customer facing web application where customers can browse the catalog, place orders, and view their order details. 
 
   **TechStack:** Spring Boot, Spring Security OAuth2, Keycloak, Thymeleaf, Alpine.js, Bootstrap
