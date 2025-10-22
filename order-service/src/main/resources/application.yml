@@ -53,7 +53,7 @@ management:
 
 # Swagger Configuration
 swagger:
-  api-gateway-url: ${SWAGGER_API_GATEWAY_URL:http://localhost:8989/orders}
+  api-gateway-url: http://localhost:8989/orders
 
 # OAuth2 Configuration
 OAUTH2_SERVER_URL: http://localhost:9191
