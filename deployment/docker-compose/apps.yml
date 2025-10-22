@@ -1,7 +1,7 @@
 name: 'spring-boot-microservices-course'
 services:
   catalog-service:
-    image: sivaprasadreddy/bookstore-catalog-service
+    image: chensoul/bookstore-catalog-service
     container_name: catalog-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -12,7 +12,7 @@ services:
       - MANAGEMENT_TRACING_ENABLED=${MANAGEMENT_TRACING_ENABLED}
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
     ports:
-      - "8081:8081"
+      - "8081:8080"
     restart: unless-stopped
     depends_on:
       catalog-db:
@@ -25,7 +25,7 @@ services:
       logging: "promtail"
 
   order-service:
-    image: sivaprasadreddy/bookstore-order-service
+    image: chensoul/bookstore-order-service
     container_name: order-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -42,7 +42,7 @@ services:
       - MANAGEMENT_TRACING_ENABLED=${MANAGEMENT_TRACING_ENABLED}
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
     ports:
-      - "8082:8082"
+      - "8082:8080"
     restart: unless-stopped
     depends_on:
       orders-db:
@@ -57,7 +57,7 @@ services:
       logging: "promtail"
 
   notification-service:
-    image: sivaprasadreddy/bookstore-notification-service
+    image: chensoul/bookstore-notification-service
     container_name: notification-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -73,7 +73,7 @@ services:
       - MANAGEMENT_TRACING_ENABLED=${MANAGEMENT_TRACING_ENABLED}
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
     ports:
-      - "8083:8083"
+      - "8083:8080"
     restart: unless-stopped
     depends_on:
       notifications-db:
@@ -90,7 +90,7 @@ services:
       logging: "promtail"
 
   api-gateway:
-    image: sivaprasadreddy/bookstore-api-gateway
+    image: chensoul/bookstore-api-gateway
     container_name: api-gateway
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -99,7 +99,7 @@ services:
       - MANAGEMENT_TRACING_ENABLED=${MANAGEMENT_TRACING_ENABLED}
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
     ports:
-      - "8989:8989"
+      - "8989:8080"
     restart: unless-stopped
     deploy:
       resources:
@@ -108,9 +108,9 @@ services:
     labels:
       logging: "promtail"
 
-  bookstore-webapp:
-    image: sivaprasadreddy/bookstore-webapp
-    container_name: bookstore-webapp
+  webapp:
+    image: chensoul/bookstore-webapp
+    container_name: webapp
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - BOOKSTORE_API_GATEWAY_URL=http://api-gateway:8989

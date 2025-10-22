@@ -8,6 +8,8 @@ vars:
   APPS_DC_FILE: "{{.DC_DIR}}/apps.yml"
   MONITORING_DC_FILE: "{{.DC_DIR}}/monitoring.yml"
   SLEEP_CMD: '{{if eq .GOOS "windows"}}timeout{{else}}sleep{{end}}'
+  USER: "chensoul"
+  IMAGE_PREFIX: "bookstore"
 
 tasks:
   default:
@@ -24,11 +26,20 @@ tasks:
 
   build:
     cmds:
-      - "{{.MVNW}} -pl catalog-service spring-boot:build-image -DskipTests"
-      - "{{.MVNW}} -pl order-service spring-boot:build-image -DskipTests"
-      - "{{.MVNW}} -pl notification-service spring-boot:build-image -DskipTests"
-      - "{{.MVNW}} -pl api-gateway spring-boot:build-image -DskipTests"
-      - "{{.MVNW}} -pl bookstore-webapp spring-boot:build-image -DskipTests"
+      - "{{.MVNW}} -pl catalog-service spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.USER}}/{{.IMAGE_PREFIX}}-catalog-service"
+      - "{{.MVNW}} -pl order-service spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.USER}}/{{.IMAGE_PREFIX}}-order-service"
+      - "{{.MVNW}} -pl notification-service spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.USER}}/{{.IMAGE_PREFIX}}-notification-service"
+      - "{{.MVNW}} -pl api-gateway spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.USER}}/{{.IMAGE_PREFIX}}-api-gateway"
+      - "{{.MVNW}} -pl webapp spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName={{.USER}}/{{.IMAGE_PREFIX}}-webapp"
+
+  docker-build:
+    cmds:
+      - "{{.MVNW}} clean package"
+      - "cd catalog-service && docker build -t  {{.USER}}/{{.IMAGE_PREFIX}}-catalog-service ."
+      - "cd order-service && docker build -t  {{.USER}}/{{.IMAGE_PREFIX}}-order-service ."
+      - "cd notification-service && docker build -t  {{.USER}}/{{.IMAGE_PREFIX}}-notification-service ."
+      - "cd api-gateway && docker build -t  {{.USER}}/{{.IMAGE_PREFIX}}-api-gateway ."
+      - "cd webapp && docker build -t  {{.USER}}/{{.IMAGE_PREFIX}}-webapp ."
 
   start_infra:
     cmds:

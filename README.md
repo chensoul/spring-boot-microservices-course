@@ -58,8 +58,7 @@ We will build a BookStore application using Spring Boot, Spring Cloud, and Docke
 ```shell
 $ curl -s "https://get.sdkman.io" | bash
 $ source "$HOME/.sdkman/bin/sdkman-init.sh"
-$ sdk install java 24.0.1-tem
-$ sdk install maven
+$ sdk env install
 $ brew install go-task
 (or)
 $ go install github.com/go-task/task/v3/cmd/task@latest
@@ -79,7 +78,7 @@ $ task --version
 
 ```shell
 # Clone the repository: 
-$ git clone https://github.com/sivaprasadreddy/spring-boot-microservices-course.git
+$ git clone https://github.com/chensoul/spring-boot-microservices-course.git
 $ cd spring-boot-microservices-course
 ```
 

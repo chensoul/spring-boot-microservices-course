@@ -22,7 +22,7 @@
         <module>order-service</module>
         <module>notification-service</module>
         <module>api-gateway</module>
-        <module>bookstore-webapp</module>
+        <module>webapp</module>
     </modules>
 
     <build>
@@ -33,12 +33,12 @@
                 <version>${spotless-maven-plugin.version}</version>
                 <configuration>
                     <java>
-                        <importOrder />
-                        <removeUnusedImports />
+                        <importOrder/>
+                        <removeUnusedImports/>
                         <palantirJavaFormat>
                             <version>2.74.0</version>
                         </palantirJavaFormat>
-                        <formatAnnotations />
+                        <formatAnnotations/>
                     </java>
                 </configuration>
                 <executions>
