@@ -77,20 +77,23 @@
                 <artifactId>git-commit-id-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>get-the-git-infos</id>
                         <goals>
                             <goal>revision</goal>
                         </goals>
+                        <phase>initialize</phase>
                     </execution>
                 </executions>
                 <configuration>
+                    <dateFormatTimeZone>${user.timezone}</dateFormatTimeZone>
                     <failOnNoGitDirectory>false</failOnNoGitDirectory>
                     <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
                     <includeOnlyProperties>
                         <includeOnlyProperty>^git.branch$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.commit.user.name$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.commit.message.full$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.commit.(id|message|time).*$</includeOnlyProperty>
                     </includeOnlyProperties>
                 </configuration>
             </plugin>
