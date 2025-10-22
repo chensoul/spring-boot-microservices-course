@@ -62,7 +62,6 @@ $ sdk env install
 $ brew install go-task
 (or)
 $ go install github.com/go-task/task/v3/cmd/task@latest
-
 ```
 
 Verify the prerequisites
@@ -87,50 +86,63 @@ $ cd spring-boot-microservices-course
 1. **Start all the required services such as PostgreSQL, RabbitMQ, Keycloak, etc.:** `$ task start_infra`
 
 2. **Start individual microservices:**
-  You can start individual microservices by running their respective main entrypoint classes from IDE: `ApiGatewayApplication`, `CatalogServiceApplication`, `OrderServiceApplication`, `NotificationServiceApplication`, `BookstoreWebappApplication`
+  You can start individual microservices by running their respective main entrypoint classes from IDE: 
 
-3. **Access the application** at http://localhost:8080 with credentials `siva/siva1234` or `prasad/prasad1234`
+- `ApiGatewayApplication`
+- `CatalogServiceApplication`
+- `OrderServiceApplication`
+- `NotificationServiceApplication`
+- `WebappApplication`
 
-* Catalog Service PostgreSQL DB: `jdbc:postgresql://localhost:15432/postgres` with credentials `postgres/postgres`
-* Order Service PostgreSQL DB: `jdbc:postgresql://localhost:25433/postgres` with credentials `postgres/postgres`
-* RabbitMQ: `http://localhost:15672` with credentials `guest/guest`
-* Keycloak: `http://localhost:9191` with credentials `admin/admin1234`
-* MailHog: `http://localhost:8025`
+3. **Access the application** 
 
-#### Option 2: Working on individual microservices
+* **Webapp**: http://localhost:8080 with credentials `siva/siva1234` or `prasad/prasad1234`
+* **Catalog Service PostgreSQL DB**: `jdbc:postgresql://localhost:15432/postgres` with credentials `postgres/postgres`
+* **Order Service PostgreSQL DB**: `jdbc:postgresql://localhost:25433/postgres` with credentials `postgres/postgres`
+* **RabbitMQ**: `http://localhost:15672` with credentials `guest/guest`
+* **Keycloak**: `http://localhost:9191` with credentials `admin/admin1234`
+* **MailHog**: `http://localhost:8025`
 
-Each microservice has Testcontainers based configuration to start the required services such as PostgreSQL, RabbitMQ, Keycloak, etc automatically.
+#### Option 2: Run all the infra components and applications using Docker Compose
 
-You can start individual microservices by running their respective Test main entrypoint classes from IDE: `TestCatalogServiceApplication`, `TestOrderServiceApplication`, `TestNotificationServiceApplication`, `ApiGatewayApplication`, `BookstoreWebappApplication`.
+1. **Rebuild Docker images** to include the new Docker profile configurations:
+```bash
+$ task build
+# or
+$ task docker-build
+```
 
-#### Option 3: Run all the infra components and applications using Docker Compose
+2. Start Services
 
-1. **Start all:** `$ task start`
+```shell
+$ task start
+```
 
-2. **Access the application** at http://localhost:8080
-
+3. **Access the application** at http://localhost:8080
 
 ## Run the application with Observability Stack
 
-### Prerequisites
 1. **Rebuild Docker images** to include the new Docker profile configurations:
-   ```bash
-   $ task build
-   # or
-   $ task docker-build
-   ```
+```bash
+$ task build
+# or
+$ task docker-build
+```
 
 2. **Create .env file** to enable distributed tracing:
-   ```bash
-   $ cd deployment/docker-compose
-   $ echo "MANAGEMENT_TRACING_ENABLED=true" > .env
-   ```
+```bash
+$ cd deployment/docker-compose
+$ echo "MANAGEMENT_TRACING_ENABLED=true" > .env
+```
 
-### Start Services
-1. Start Grafana, Tempo, Loki, Prometheus using `$ task start_monitoring`
-2. Start the application using `$ task start`
+3. **Start Services**
 
-### Access Observability Tools
+Start Grafana, Tempo, Loki, Prometheus using `$ task start_monitoring`
+
+ReStart the application using `$ task restart`
+
+4. **Access Observability Tools**
+
 * **Grafana**: http://localhost:3000 (credentials: `admin/admin1234`)
   - Pre-configured data sources: Prometheus, Tempo, Loki
   - Auto-loaded dashboards: Spring Boot 3.x Statistics, Spring Boot Observability
@@ -138,7 +150,6 @@ You can start individual microservices by running their respective Test main ent
   - Check targets at: http://localhost:9090/targets
 * **Tempo**: Accessible via Grafana Explore
 * **Loki**: Accessible via Grafana Explore
-
 
 ## Other Learning Resources
 * [SivaLabs Blog](https://sivalabs.in)
