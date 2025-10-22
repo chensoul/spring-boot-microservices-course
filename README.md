@@ -118,7 +118,7 @@ You can start individual microservices by running their respective Test main ent
 
 Now you can access the observability stack using the following URLs:
 
-* Access Grafana at http://localhost:3000
+* Access Grafana at http://localhost:3000 with credentials `admin/admin123`
 * Access Prometheus at http://localhost:9090
 
 
@@ -137,4 +137,5 @@ Now you can access the observability stack using the following URLs:
 ## References
 
 - https://github.com/Nasruddin/spring-boot-based-microservices
+- https://github.com/SaiUpadhyayula/spring-boot-3-microservices-course
 - https://github.com/PacktPublishing/Microservices-with-Spring-Boot-and-Spring-Cloud-Fourth-Edition
