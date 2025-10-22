@@ -23,12 +23,24 @@ class ProductController {
         this.productService = productService;
     }
 
+    /**
+     * Get Products By page
+     *
+     * @param pageNo
+     * @return
+     */
     @GetMapping
     PagedResult<Product> getProducts(@RequestParam(name = "page", defaultValue = "1") int pageNo) {
         log.info("Fetching products for page: {}", pageNo);
         return productService.getProducts(pageNo);
     }
 
+    /**
+     * Get Products By Code
+     *
+     * @param code
+     * @return
+     */
     @GetMapping("/{code}")
     ResponseEntity<Product> getProductByCode(@PathVariable String code) {
         log.info("Fetching product for code: {}", code);
