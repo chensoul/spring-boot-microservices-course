@@ -112,7 +112,7 @@ $ task build
 $ task docker-build
 ```
 
-2. Start Services
+2. **Start Services**
 
 ```shell
 $ task start
