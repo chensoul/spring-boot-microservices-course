@@ -3,13 +3,10 @@ server:
   shutdown: graceful
 
 management:
-  info:
-    git:
-      mode: full
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "health,info,metrics,prometheus"
   metrics:
     tags:
       application: ${spring.application.name}
@@ -30,13 +27,13 @@ spring:
         webflux:
           routes:
             - id: catalog-service
-              uri: ${CATALOG_SERVICE_URL:http://localhost:8081}
+              uri: http://localhost:8081
               predicates:
                 - Path=/catalog/**
               filters:
                 - RewritePath=/catalog/?(?<segment>.*), /${segment}
             - id: orders-service
-              uri: ${ORDER_SERVICE_URL:http://localhost:8082}
+              uri: http://localhost:8082
               predicates:
                 - Path=/orders/**
               filters:
@@ -68,3 +65,38 @@ springdoc:
 #        url: /v3/api-docs/catalog
 #      - name: orders
 #        url: /v3/api-docs/orders
+
+---
+spring.config.activate.on-profile: docker
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: catalog-service
+              uri: http://catalog-service:8081
+              predicates:
+                - Path=/catalog/**
+              filters:
+                - RewritePath=/catalog/?(?<segment>.*), /${segment}
+            - id: orders-service
+              uri: http://order-service:8082
+              predicates:
+                - Path=/orders/**
+              filters:
+                - RewritePath=/orders/?(?<segment>.*), /${segment}
+            - id: openapi
+              uri: http://localhost:${server.port}
+              predicates:
+                - Path=/v3/api-docs/**
+              filters:
+                - RewritePath=/v3/api-docs/?(?<segment>.*), /${segment}/v3/api-docs
+
+management:
+  tracing:
+    enabled: true
+  zipkin:
+    tracing:
+      endpoint: http://tempo:9411/api/v2/spans
