@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-db
+  labels:
+    db: notification-db
+spec:
+  selector:
+    matchLabels:
+      db: notification-db
+  template:
+    metadata:
+      labels:
+        db: notification-db
+    spec:
+      containers:
+        - name: notification-db
+          image: postgres:18-alpine
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DB
+              value: postgres
+          resources:
+            requests:
+              cpu: 100m
+              memory: 60Mi
+            limits:
+              cpu: 200m
+              memory: 120Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-db
+  labels:
+    db: notification-db
+spec:
+  type: ClusterIP
+  selector:
+    db: notification-db
+  ports:
+    - protocol: TCP
+      port: 35432
+      targetPort: 5432

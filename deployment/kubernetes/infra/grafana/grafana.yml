@@ -1,0 +1,121 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-config
+data:
+  datasource.yml: |
+    apiVersion: 1
+
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus:9090
+        editable: false
+        jsonData:
+          httpMethod: POST
+          exemplarTraceIdDestinations:
+            - name: trace_id
+              datasourceUid: tempo
+      - name: Tempo
+        type: tempo
+        access: proxy
+        orgId: 1
+        url: http://tempo:3200
+        basicAuth: false
+        isDefault: true
+        version: 1
+        editable: false
+        apiVersion: 1
+        uid: tempo
+        jsonData:
+          httpMethod: GET
+          tracesToLogs:
+            datasourceUid: 'loki'
+          nodeGraph:
+            enabled: true
+      - name: Loki
+        type: loki
+        uid: loki
+        access: proxy
+        orgId: 1
+        url: http://loki:3100
+        basicAuth: false
+        isDefault: false
+        version: 1
+        editable: false
+        apiVersion: 1
+        jsonData:
+          derivedFields:
+            -   datasourceUid: tempo
+                matcherRegex: \[.+,(.+?),
+                name: TraceID
+                url: $${__value.raw}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:latest
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: config-volume
+              mountPath: "/etc/grafana/provisioning/dashboards/dashboards.yml"
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: "admin"
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: "admin1234"
+            - name: GF_USERS_ALLOW_SIGN_UP
+              value: "false"
+      volumes:
+        - name: config-volume
+          configMap:
+            name: grafana-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  selector:
+    app: grafana
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+spec:
+  rules:
+    - host: grafana.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000

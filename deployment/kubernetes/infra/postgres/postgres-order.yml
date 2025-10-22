@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-db
+  labels:
+    db: order-db
+spec:
+  selector:
+    matchLabels:
+      db: order-db
+  template:
+    metadata:
+      labels:
+        db: order-db
+    spec:
+      containers:
+        - name: order-db
+          image: postgres:18-alpine
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DB
+              value: postgres
+          resources:
+            requests:
+              cpu: 100m
+              memory: 60Mi
+            limits:
+              cpu: 200m
+              memory: 120Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-db
+  labels:
+    db: order-db
+spec:
+  type: ClusterIP
+  selector:
+    db: order-db
+  ports:
+    - protocol: TCP
+      port: 25432
+      targetPort: 5432
