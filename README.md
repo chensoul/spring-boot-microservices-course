@@ -131,7 +131,7 @@ You can start individual microservices by running their respective Test main ent
 2. Start the application using `$ task start`
 
 ### Access Observability Tools
-* **Grafana**: http://localhost:3000 (credentials: `admin/admin123`)
+* **Grafana**: http://localhost:3000 (credentials: `admin/admin1234`)
   - Pre-configured data sources: Prometheus, Tempo, Loki
   - Auto-loaded dashboards: Spring Boot 3.x Statistics, Spring Boot Observability
 * **Prometheus**: http://localhost:9090

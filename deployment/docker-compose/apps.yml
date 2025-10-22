@@ -1,3 +1,4 @@
+name: spring-boot-microservices-course
 services:
   catalog-service:
     image: chensoul/bookstore-catalog-service
