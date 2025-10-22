@@ -30,13 +30,13 @@ spring:
         webflux:
           routes:
             - id: catalog-service
-              uri: ${CATALOG_SERVICE_URL:http://localhost:8081}
+              uri: ${CATALOG_SERVICE_URL:http://catalog-service:8081}
               predicates:
                 - Path=/catalog/**
               filters:
                 - RewritePath=/catalog/?(?<segment>.*), /${segment}
-            - id: orders-service
-              uri: ${ORDER_SERVICE_URL:http://localhost:8082}
+            - id: order-service
+              uri: ${ORDER_SERVICE_URL:http://order-service:8082}
               predicates:
                 - Path=/orders/**
               filters:
@@ -72,4 +72,9 @@ springdoc:
 ---
 spring.config.activate.on-profile: docker
 
-server.port: 8080
+management:
+  tracing:
+    enabled: true
+  zipkin:
+    tracing:
+      endpoint: http://tempo:9411/api/v2/spans

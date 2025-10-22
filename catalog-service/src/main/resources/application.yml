@@ -40,4 +40,16 @@ swagger:
 ---
 spring.config.activate.on-profile: docker
 
-server.port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://catalog-db:15432/postgres
+
+swagger:
+  api-gateway-url: http://api-gateway:8989/catalog
+
+management:
+  tracing:
+    enabled: true
+  zipkin:
+    tracing:
+      endpoint: http://tempo:9411/api/v2/spans

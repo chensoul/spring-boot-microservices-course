@@ -79,4 +79,23 @@ resilience4j:
 ---
 spring.config.activate.on-profile: docker
 
-server.port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://order-db:25432/postgres
+  rabbitmq:
+    host: rabbitmq
+
+orders:
+  catalog-service-url: http://api-gateway:8989/catalog
+
+swagger:
+  api-gateway-url: http://api-gateway:8989/orders
+
+OAUTH2_SERVER_URL: http://keycloak:9191
+
+management:
+  tracing:
+    enabled: true
+  zipkin:
+    tracing:
+      endpoint: http://tempo:9411/api/v2/spans

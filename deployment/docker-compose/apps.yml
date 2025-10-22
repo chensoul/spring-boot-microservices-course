@@ -6,12 +6,6 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8080
-      - DB_URL=jdbc:postgresql://catalog-db:5432/postgres
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
-      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8080/catalog
-      - MANAGEMENT_TRACING_ENABLED=${MANAGEMENT_TRACING_ENABLED}
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
     ports:
       - "8081:8080"
     restart: unless-stopped
@@ -31,25 +25,13 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8080
-      - ORDERS_CATALOG_SERVICE_URL=http://api-gateway:8080/catalog
-      - DB_URL=jdbc:postgresql://orders-db:5432/postgres
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
-      - RABBITMQ_HOST=bookstore-rabbitmq
-      - RABBITMQ_PORT=5672
-      - RABBITMQ_USERNAME=guest
-      - RABBITMQ_PASSWORD=guest
-      - OAUTH2_SERVER_URL=http://keycloak:9191
-      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8080/orders
-      - MANAGEMENT_TRACING_ENABLED=${MANAGEMENT_TRACING_ENABLED}
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
     ports:
       - "8082:8080"
     restart: unless-stopped
     depends_on:
-      orders-db:
+      order-db:
         condition: service_healthy
-      bookstore-rabbitmq:
+      rabbitmq:
         condition: service_healthy
     deploy:
       resources:
@@ -64,24 +46,13 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8080
-      - DB_URL=jdbc:postgresql://notifications-db:5432/postgres
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
-      - RABBITMQ_HOST=bookstore-rabbitmq
-      - RABBITMQ_PORT=5672
-      - RABBITMQ_USERNAME=guest
-      - RABBITMQ_PASSWORD=guest
-      - MAIL_HOST=mailhog
-      - MAIL_PORT=1025
-      - MANAGEMENT_TRACING_ENABLED=${MANAGEMENT_TRACING_ENABLED}
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
     ports:
       - "8083:8080"
     restart: unless-stopped
     depends_on:
-      notifications-db:
+      notification-db:
         condition: service_healthy
-      bookstore-rabbitmq:
+      rabbitmq:
         condition: service_healthy
       mailhog:
         condition: service_started
@@ -98,10 +69,6 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8080
-      - CATALOG_SERVICE_URL=http://catalog-service:8080
-      - ORDER_SERVICE_URL=http://order-service:8080
-      - MANAGEMENT_TRACING_ENABLED=${MANAGEMENT_TRACING_ENABLED}
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
     ports:
       - "8989:8080"
     restart: unless-stopped
@@ -118,10 +85,6 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SERVER_PORT=8080
-      - BOOKSTORE_API_GATEWAY_URL=http://api-gateway:8080
-      - OAUTH2_SERVER_URL=http://keycloak:9191
-      - MANAGEMENT_TRACING_ENABLED=${MANAGEMENT_TRACING_ENABLED}
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
     ports:
       - "8080:8080"
     restart: unless-stopped

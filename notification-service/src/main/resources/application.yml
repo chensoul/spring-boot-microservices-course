@@ -59,4 +59,17 @@ management:
 ---
 spring.config.activate.on-profile: docker
 
-server.port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://notification-db:35432/postgres
+  rabbitmq:
+    host: rabbitmq
+  mail:
+    host: mailhog
+
+management:
+  tracing:
+    enabled: true
+  zipkin:
+    tracing:
+      endpoint: http://tempo:9411/api/v2/spans

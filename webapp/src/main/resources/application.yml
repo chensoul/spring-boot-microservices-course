@@ -56,4 +56,14 @@ REALM_URL: ${OAUTH2_SERVER_URL}/realms/bookstore
 ---
 spring.config.activate.on-profile: docker
 
-server.port: 8080
+bookstore:
+  api-gateway-url: http://api-gateway:8989
+
+OAUTH2_SERVER_URL: http://keycloak:9191
+
+management:
+  tracing:
+    enabled: true
+  zipkin:
+    tracing:
+      endpoint: http://tempo:9411/api/v2/spans
