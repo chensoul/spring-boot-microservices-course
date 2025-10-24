@@ -1,16 +1,28 @@
 server:
-  http_listen_address: 0.0.0.0
   http_listen_port: 3200
 
-  distributor:
-    receivers:
-      zipkin:
+distributor:
+  receivers:
+    zipkin:
+      endpoint: 0.0.0.0:9411
 
-  storage:
-    trace:
-      backend: local
-      local:
-        path: /tmp/tempo/blocks
+ingester:
+  trace_idle_period: 10s
+  max_block_bytes: 1_000_000
+  max_block_duration: 5m
 
-  usage_report:
-    reporting_enabled: false
+compactor:
+  compaction:
+    compaction_window: 1h
+    max_compaction_objects: 1000000
+    block_retention: 1h
+    compacted_block_retention: 10m
+
+storage:
+  trace:
+    backend: local
+    local:
+      path: /tmp/tempo/blocks
+    pool:
+      max_workers: 100
+      queue_depth: 10000

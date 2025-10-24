@@ -1,0 +1,16 @@
+global:
+  smtp_smarthost: 'smtp.feishu.cn:465'
+  smtp_from: 'noreply@example.com'
+  smtp_auth_username: 'noreply@example.com'
+  smtp_auth_password: 'xxxxxx'
+  smtp_require_tls: false
+
+route:
+  receiver: 'Mail Alert'
+  repeat_interval: 1m
+
+receivers:
+  - name: 'Mail Alert'
+    email_configs:
+      - to: 'user@example.com'
+        send_resolved: true

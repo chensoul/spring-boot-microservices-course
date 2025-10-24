@@ -5,20 +5,28 @@ services:
     container_name: prometheus
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus-data:/prometheus
+      - ./prometheus/alert-rules.yml:/etc/prometheus/alert-rules.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
     ports:
       - "9090:9090"
 
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager.yml
+    command: --config.file=/etc/alertmanager.yml --log.level=debug
+
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     volumes:
       - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro
-      - ./grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
-      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin1234
@@ -43,7 +51,6 @@ services:
     command: [ "-config.file=/etc/loki/local-config.yaml" ]
     volumes:
       - ./loki/loki-config.yaml:/etc/loki/local-config.yaml
-      - loki-data:/loki
     ports:
       - "3100:3100"
     depends_on:
@@ -60,7 +67,7 @@ services:
       - ./tempo/tempo.yml:/etc/tempo.yml
 
   fluent-bit:
-    image: grafana/fluent-bit-plugin-loki:latest
+    image: grafana/fluent-bit-plugin-loki:2.9.8
     container_name: fluent-bit
     ports:
       - "24224:24224"
@@ -68,8 +75,3 @@ services:
       - LOKI_URL=http://loki:3100/loki/api/v1/push
     volumes:
       - ./fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
-
-volumes:
-  grafana_data:
-  prometheus-data:
-  loki-data:
