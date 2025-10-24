@@ -165,6 +165,7 @@ ReStart the application using `$ task restart`
 
 ## References
 
+- https://github.com/sivaprasadreddy/bookstore
 - https://github.com/Nasruddin/spring-boot-based-microservices
 - https://github.com/SaiUpadhyayula/spring-boot-3-microservices-course
 - https://github.com/PacktPublishing/Microservices-with-Spring-Boot-and-Spring-Cloud-Fourth-Edition
