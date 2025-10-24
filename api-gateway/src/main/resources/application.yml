@@ -2,19 +2,6 @@ server:
   port: 8989
   shutdown: graceful
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "health,info,metrics,prometheus"
-  metrics:
-    tags:
-      application: ${spring.application.name}
-  tracing:
-    enabled: false
-    sampling:
-      probability: 1.0
-
 spring:
   application:
     name: api-gateway
@@ -65,6 +52,19 @@ springdoc:
 #        url: /v3/api-docs/catalog
 #      - name: orders
 #        url: /v3/api-docs/orders
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics,prometheus"
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  tracing:
+    enabled: false
+    sampling:
+      probability: 1.0
 
 ---
 spring.config.activate.on-profile: docker
