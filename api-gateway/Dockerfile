@@ -5,7 +5,7 @@ ADD ./target/*.jar app.jar
 
 RUN java -Djarmode=layertools -jar app.jar extract
 
-FROM eclipse-temurin:21.0.8_9-jre-jammy
+FROM eclipse-temurin:17.0.17_10-jre-jammy
 WORKDIR application
 
 # Copy the dependencies layer from the builder stage

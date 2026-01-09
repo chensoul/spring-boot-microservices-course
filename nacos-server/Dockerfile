@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.17_10-jre-jammy AS builder
+FROM eclipse-temurin:task AS builder
 WORKDIR extracted
 
 ADD ./target/*.jar app.jar
@@ -17,7 +17,7 @@ COPY --from=builder extracted/snapshot-dependencies/ ./
 # Copy the application layer from the builder stage
 COPY --from=builder extracted/application/ ./
 
-EXPOSE 8083
+EXPOSE 8848 9848 8080
 
 # Set the entry point to launch the application
 ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
