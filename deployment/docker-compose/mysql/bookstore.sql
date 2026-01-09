@@ -1,3 +1,78 @@
+DROP DATABASE IF EXISTS `bookstore`;
+
+CREATE DATABASE  `bookstore` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+USE `bookstore`;
+
+create table products
+(
+    id bigint AUTO_INCREMENT not null,
+    code        varchar(255) not null unique,
+    name        varchar(255) not null,
+    description text,
+    image_url   text,
+    price       decimal(10,2) not null,
+    primary key (id)
+);
+
+create table order_events
+(
+    id           bigint AUTO_INCREMENT not null,
+    order_number varchar(255) not null,
+    event_id     varchar(255) not null unique,
+    event_type   varchar(255) not null,
+    payload      text not null,
+    created_at   timestamp not null,
+    updated_at   timestamp,
+    primary key (id),
+    foreign key (order_number) references orders (order_number)
+);
+
+create table orders
+(
+    id                        bigint AUTO_INCREMENT not null,
+    order_number              varchar(255) not null unique,
+    username                  varchar(255) not null,
+    customer_name             varchar(255) not null,
+    customer_email            varchar(255) not null,
+    customer_phone            varchar(255) not null,
+    delivery_address_line1    varchar(255) not null,
+    delivery_address_line2    varchar(255),
+    delivery_address_city     varchar(255) not null,
+    delivery_address_state    varchar(255) not null,
+    delivery_address_zip_code varchar(255) not null,
+    delivery_address_country  varchar(255) not null,
+    status                    varchar(255) not null,
+    comments                  text,
+    created_at                timestamp,
+    updated_at                timestamp,
+    primary key (id)
+);
+
+create table order_items
+(
+    id       bigint AUTO_INCREMENT not null,
+    code     varchar(255) not null,
+    name     varchar(255) not null,
+    price    decimal(10,2) not null,
+    quantity int not null,
+    order_id bigint not null,
+    primary key (id),
+    foreign key (order_id) references orders (id)
+);
+
+CREATE TABLE shedlock(
+    name VARCHAR(64) NOT NULL,
+    lock_until TIMESTAMP NOT NULL,
+    locked_at TIMESTAMP NOT NULL,
+    locked_by VARCHAR(255) NOT NULL,
+    PRIMARY KEY (name)
+);
+
+
 insert into products(code, name, description, image_url, price) values
 ('P100','The Hunger Games','Winning will make you famous. Losing means certain death...','https://images.gr-assets.com/books/1447303603l/2767052.jpg', 34.0),
 ('P101','To Kill a Mockingbird','The unforgettable novel of a childhood in a sleepy Southern town and the crisis of conscience that rocked it...','https://images.gr-assets.com/books/1361975680l/2657.jpg', 45.40),
