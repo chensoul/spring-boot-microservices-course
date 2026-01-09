@@ -5,12 +5,31 @@ server:
 spring:
   application:
     name: catalog-service
+  profiles:
+    active: test
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/bookstore?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: 123456
   jpa:
     open-in-view: false
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_HOST:127.0.0.1}:${NACOS_PORT:8848}
+        namespace: bookstore-${spring.profiles.active}
+        watch:
+          enabled: true
+          watch-delay: 1000
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: bookstore-${spring.profiles.active}
+        file-extension: yaml
+  config:
+    import:
+      - optional:nacos:application.yaml
+      - optional:nacos:${spring.application.name}.yaml
 
 # Catalog Service Configuration
 catalog:

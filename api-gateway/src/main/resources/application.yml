@@ -5,13 +5,22 @@ server:
 spring:
   application:
     name: api-gateway
-  mvc:
-    problemdetails:
-      enabled: true
   cloud:
     gateway:
       server:
         webflux:
+          discovery:
+            locator:
+              enabled: true
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowed-origins: "*"
+                allowed-methods: "*"
+                allowed-headers: "*"
+                allow-credentials: false
+          default-filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Methods Access-Control-Allow-Headers RETAIN_FIRST
           routes:
             - id: catalog-service
               uri: http://localhost:8081
@@ -31,29 +40,6 @@ spring:
                 - Path=/v3/api-docs/**
               filters:
                 - RewritePath=/v3/api-docs/?(?<segment>.*), /${segment}/v3/api-docs
-          discovery:
-            locator:
-              enabled: true
-          globalcors:
-            cors-configurations:
-              '[/**]':
-                allowed-origins: "*"
-                allowed-methods: "*"
-                allowed-headers: "*"
-                allow-credentials: false
-          default-filters:
-            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Methods Access-Control-Allow-Headers RETAIN_FIRST
-
-springdoc:
-  swagger-ui:
-    use-root-path: true
-    operationsSorter: alpha
-    tagsSorter: alpha
-#    urls:
-#      - name: catalog
-#        url: /v3/api-docs/catalog
-#      - name: orders
-#        url: /v3/api-docs/orders
 
 management:
   endpoints:
@@ -67,6 +53,23 @@ management:
     enabled: false
     sampling:
       probability: 1.0
+
+---
+spring:
+  config:
+    import:
+      - optional:nacos:application.yaml
+      - optional:nacos:${spring.application.name}.yaml
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_HOST:127.0.0.1}:${NACOS_PORT:8848}
+        watch:
+          enabled: true
+          watch-delay: 1000
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
 
 ---
 spring.config.activate.on-profile: docker

@@ -2,7 +2,7 @@ name: spring-boot-microservices-course
 
 services:
   nacos:
-    image: nacos/nacos-server:v3.1.1-slim
+    image: nacos/nacos-server:v3.0.3-slim
     container_name: nacos
     restart: always
     environment:
@@ -19,19 +19,19 @@ services:
     ports:
       - "8848:8848"
       - "9848:9848"
-      - "9849:9849"
+      - "8838:8080"
 
-  #  xxljob:
-  #    image: xuxueli/xxl-job-admin:3.2.0
-  #    container_name: xxljob
-  #    ports:
-  #      - "8040:8080"
-  #    environment:
-  #      PARAMS: '
-  #          --spring.datasource.url=jdbc:mysql://${MYSQL_HOST:rose-mysql}:3306/xxl_job?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
-  #          --spring.datasource.username=root
-  #          --spring.datasource.password=123456
-  #          --xxl.job.accessToken=xxl-job'
+  xxljob:
+    image: xuxueli/xxl-job-admin:3.3.2
+    container_name: xxljob
+    ports:
+      - "8868:8080"
+    environment:
+      PARAMS: '
+          --spring.datasource.url=jdbc:mysql://mysql:3306/xxl_job?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
+          --spring.datasource.username=root
+          --spring.datasource.password=123456
+          --xxl.job.accessToken=xxl-job'
 
   spring-boot-admin:
     image: codecentric/spring-boot-admin:3.4.1
@@ -44,6 +44,16 @@ services:
     restart: always
     ports:
       - "8858:8858"
+
+  seata-server:
+    image: apache/seata-server:2.5.0
+    hostname: seata-server
+    ports:
+      - "8091:8091"
+      - "7091:7091"
+    environment:
+      - SEATA_PORT=8091
+      - STORE_MODE=file
 
   mysql:
     image: mysql:8
