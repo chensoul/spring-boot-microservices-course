@@ -8,7 +8,7 @@ We will build a BookStore application using Spring Boot, Spring Cloud, and Docke
 
 ## Local Development Setup
 
-* Install Java 17. Recommend using [SDKMAN](https://sdkman.io/)
+* Install Java 21. Recommend using [SDKMAN](https://sdkman.io/)
   for [managing Java versions](https://youtu.be/ZywEiw3EO8A).
 * Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 * Install [IntelliJ IDEA](https://www.jetbrains.com/idea) or any of your favorite IDE
@@ -55,7 +55,7 @@ $ task start_infra
 | 2.6.15      | 2021.0.9     | 2021.0.6.2           | 2.2.0 | 
 | 3.0.13      | 2022.0.5     | 2022.0.0.2           | 2.2.3 | 
 | 3.2.12      | 2023.0.6     | 2023.0.3.4           | 2.4.3 | 
-| 3.5.9       | 2025.0.1     | 2025.0.0.0           | 3.0.3 |
+| 3.5.10      | 2025.0.1     | 2025.0.0.0           | 3.0.3 |
 | 4.0.0       | 2025.1.0     | 2025.1.0.0-SNAPSHOT  | 3.1.0 | 
 
 ## References
