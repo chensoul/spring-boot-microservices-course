@@ -8,13 +8,9 @@ RUN java -Djarmode=layertools -jar app.jar extract
 FROM eclipse-temurin:21-jre-jammy
 WORKDIR application
 
-# Copy the dependencies layer from the builder stage
 COPY --from=builder extracted/dependencies/ ./
-# Copy the Spring Boot loader layer from the builder stage
 COPY --from=builder extracted/spring-boot-loader/ ./
-# Copy the snapshot dependencies layer from the builder stage
 COPY --from=builder extracted/snapshot-dependencies/ ./
-# Copy the application layer from the builder stage
 COPY --from=builder extracted/application/ ./
 
 # Expose port 8080
